@@ -19,25 +19,25 @@ public class UserController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('permission:admin')")
     public List<User> findAll(){
         return userService.findAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('permission:read')")
+    @PreAuthorize("hasAuthority('permission:admin')")
     public User findById(@PathVariable("id") Long id){
         return userService.findById(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasAuthority('permission:write')")
+    @PostMapping()
+    @PreAuthorize("hasAuthority('permission:admin')")
     public User saveUser(@RequestBody User user){
         return userService.saveUser(user);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('permission:write')")
+    @PreAuthorize("hasAuthority('permission:admin')")
     public void deleteById(@PathVariable("id") Long id){
         userService.deleteById(id);
     }

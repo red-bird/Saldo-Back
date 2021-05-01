@@ -2,8 +2,10 @@ package com.redbird.SaldoBack.controllers;
 
 import com.redbird.SaldoBack.models.Forecast;
 import com.redbird.SaldoBack.services.ForecastService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -24,7 +26,8 @@ public class ForecastController {
      * @param id - id of forecast
      * @return Forecast object
      */
-    @GetMapping("/{id}")
+    @GetMapping("/admin/{id}")
+    @PreAuthorize("hasAuthority('permission:admin')")
     public Forecast getById(@PathVariable("id") Long id) {
         return forecastService.getById(id);
     }
@@ -33,7 +36,8 @@ public class ForecastController {
      * Endpoint to get all forecasts
      * @return List of all forecasts
      */
-    @GetMapping
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('permission:admin')")
     public List<Forecast> getAll() {
         return forecastService.getAll();
     }
@@ -44,16 +48,36 @@ public class ForecastController {
      * @return Saved forecast
      */
     @PostMapping
-    public Forecast save(@RequestBody Forecast forecast) {
-        return forecastService.save(forecast);
+    @PreAuthorize("hasAuthority('permission:user')")
+    public Forecast save(@RequestBody Forecast forecast, Principal principal) {
+        return forecastService.save(forecast, principal.getName());
     }
 
     /**
      * Endpoint to delete forecast
      * @param id - id of forecast
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
+    @PreAuthorize("hasAuthority('permission:admin')")
     public void delete(@PathVariable("id") Long id) {
         forecastService.delete(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('permission:user')")
+    public void deleteByUser(@PathVariable("id") Long id, Principal principal) {
+        forecastService.deleteByUser(id, principal.getName());
+    }
+
+    @GetMapping()
+    @PreAuthorize("hasAuthority('permission:user')")
+    public List<Forecast> getAllByUser(Principal principal) {
+        return forecastService.getAllByUser(principal.getName());
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('permission:user')")
+    public Forecast getByIdByUser(@PathVariable Long id, Principal principal) {
+        return forecastService.getByIdByUser(id, principal.getName());
     }
 }

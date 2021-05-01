@@ -1,6 +1,7 @@
 package com.redbird.SaldoBack.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,7 +16,7 @@ import java.util.Set;
 @Table(name = "users")
 @Data
 public class User implements UserDetails {
-    @JsonIgnore
+    @Hidden
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

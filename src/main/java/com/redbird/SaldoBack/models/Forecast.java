@@ -1,7 +1,8 @@
 package com.redbird.SaldoBack.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +21,7 @@ public class Forecast {
     /**
      * Id of forecast
      */
-    @JsonIgnore
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +36,9 @@ public class Forecast {
      */
     @NotNull
     private ZonedDateTime date;
+
+    @Hidden
+    @NotNull
+    @ManyToOne
+    private User user;
 }

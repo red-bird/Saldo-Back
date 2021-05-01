@@ -1,8 +1,8 @@
 package com.redbird.SaldoBack.models;
 
 public enum Permission {
-    PERMISSION_READ("permission:read"),
-    PERMISSION_WRITE("permission:write");
+    PERMISSION_ADMIN("permission:admin"),
+    PERMISSION_USER("permission:user");
 
     private final String permission;
 

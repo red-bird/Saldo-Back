@@ -2,6 +2,8 @@ package com.redbird.SaldoBack.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +22,7 @@ public class Transaction {
     /**
      * Id of transaction
      */
-    @JsonIgnore
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     @NotNull
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +49,18 @@ public class Transaction {
     /**
      * Type of transaction
      */
+    @NotNull
     @CollectionTable(name = "payments", joinColumns = @JoinColumn(name = "transaction_payment"))
     @Enumerated(EnumType.STRING)
     private Payment payment;
+
+    @NotNull
+    @CollectionTable(name = "category", joinColumns = @JoinColumn(name = "transaction_category"))
+    @Enumerated(EnumType.STRING)
+    private Category category;
+
+    @Hidden
+    @NotNull
+    @ManyToOne
+    private User user;
 }

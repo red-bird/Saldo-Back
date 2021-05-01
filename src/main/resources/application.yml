@@ -1,6 +1,9 @@
 server:
   port: ${PORT:8080}
+
 spring:
+  application:
+    name: Saldo-Back
   jpa:
     hibernate:
       dialect: org.hibernate.dialect.PostgreSQL95Dialect
@@ -12,3 +15,10 @@ spring:
     username: ${DB_USER:postgres}
     password: ${DB_PASS:0000}
 
+jwt:
+  header: Authorization
+  expiration: ${JWT_EXP:86400}
+  secret: ${JWT_SECRET:secret}
+
+allowed:
+  origin: "*"
